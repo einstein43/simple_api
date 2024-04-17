@@ -8,7 +8,7 @@ import AuthRepository from "./repositories/auth.repository";
 
 const app = express();
 app.use(express.json());
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 const authController = container.resolve(AuthController);
 const authService = container.resolve(AuthService);
@@ -26,5 +26,5 @@ app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
 
-
+export { app }
 module.exports = app;
