@@ -16,11 +16,14 @@ export class AuthController {
     try {
       const username = req.body.username;
       const password = req.body.password;
+
       const response = await this.authService.auth(username, password);
       if (response) {
         return res.status(response.status).json(response);
       } else {
-        return res.status(500).json({ message: "Response is undefined" });
+        return res
+          .status(500)
+          .json({ message: "Response is undefined - controller" });
       }
     } catch (error: any) {
       return res.status(500).json({ message: error.message });
