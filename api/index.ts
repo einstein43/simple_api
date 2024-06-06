@@ -1,5 +1,5 @@
 import "reflect-metadata";
-
+import cors from "cors";
 import express, { Request, Response } from "express";
 import { AuthController } from "./controllers/auth.controller";
 import { container } from "tsyringe";
@@ -8,23 +8,30 @@ import { AuthRepository } from "./repositories/auth.repository";
 import bodyParser from "body-parser";
 
 const app = express();
-
 app.use(bodyParser.json());
-//const port = process.env.PORT || 5000;
+app.options("*", cors());
+app.use(
+  cors({
+    origin: "*", // Replace with your frontend domain
+    methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers
+  })
+);
 
 const authController = container.resolve(AuthController);
 
 app.post("/auth", async (req: Request, res: Response) => {
-  
   return await authController.auth(req, res);
 });
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello0000000000 World!");
+  res.send(
+    "Welcome to The Clinic's API. Contact the network administrator for more information."
+  );
 });
 
-app.listen(5000, () => {
-  console.log(`Server running at http://localhost:5000`);
+app.listen(4000, () => {
+  console.log(`Server running`);
 });
 
 module.exports = app;

@@ -7,57 +7,18 @@ export interface User {
 }
 
 export const users: User[] = [
-  
   {
     id: 1,
-    name: "alex",
-    email: "alex@theclinic.com",
-    password: "admin",
+    name: "admin",
+    email: "admin@vitalcare.com",
+    password: "admin123!",
     role: "admin",
   },
-
   {
     id: 2,
-    name: "max",
-    email: "max@theclinic.com",
-    password: "admin",
-    role: "admin",
-  },
-  {
-    id: 3,
-    name: "beke",
-    email: "beke@theclinic.com",
-    password: "admin",
-    role: "admin",
-  },
-  {
-    id: 4,
-    name: "yosif",
-    email: "yosif@theclinic.com",
-    password: "admin",
-    role: "admin",
-  },
-  {
-    id: 5,
-    name: "melda",
-    email: "melda@theclinic.com",
-    password: "admin",
-    role: "admin",
-  },
-
-  {
-    id: 6,
-    name: "daniel",
-    email: "daniel@theclinic.com",
-    password: "admin",
-    role: "admin",
-  },
-
-  {
-    id: 7,
-    name: "reinout",
-    email: "reinout@theclinic.com",
-    password: "admin",
-    role: "admin",
+    name: "Alexander Janssen",
+    email: "a-janssen@vitalcare.com",
+    password: "Janssen123!",
+    role: "user",
   },
 ];
