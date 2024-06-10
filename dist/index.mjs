@@ -1,10 +1,12 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import https from 'https';
+import fetch from 'node-fetch';
 
 const app = express();
 app.use(bodyParser.json());
+app.options('*', cors());
 app.use(
   cors({
     origin: '*', // Replace with your frontend domain
@@ -21,10 +23,7 @@ const users = [
 const agent = new https.Agent({ rejectUnauthorized: false });
 
 class AuthService {
-  async authenticate(email: string, password: string) {
-    // Dynamic import of node-fetch
-    const fetch = (await import('node-fetch')).default;
-
+  async authenticate(email, password) {
     // SQL injection detection
     fetch('https://10.0.2.75:55000/events', {
       method: 'POST',
@@ -62,9 +61,11 @@ class AuthService {
 }
 
 class AuthController {
-  private authService = new AuthService();
+  constructor() {
+    this.authService = new AuthService();
+  }
 
-  async auth(req: Request, res: Response) {
+  async auth(req, res) {
     const { email, password } = req.body;
     const result = await this.authService.authenticate(email, password);
 
@@ -80,9 +81,9 @@ class AuthController {
 
 const authController = new AuthController();
 
-app.post('/auth', (req: Request, res: Response) => authController.auth(req, res));
+app.post('/auth', (req, res) => authController.auth(req, res));
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (req, res) => {
   res.send("Welcome to The Clinic's API. Contact the network administrator for more information.");
 });
 
