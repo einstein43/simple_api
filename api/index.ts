@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import cors from "cors";
 import express, { Request, Response } from "express";
-import { AuthController } from "./controllers/auth.controller";
+import { AuthController } from "./controllers/auth.controller.js";
 import { container } from "tsyringe";
 import { AuthService } from "./services/auth.service";
 import { AuthRepository } from "./repositories/auth.repository";

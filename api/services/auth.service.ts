@@ -37,17 +37,21 @@ export class AuthService {
       const response = await this.authRepository.auth(username, password);
 
       const logMsg =
-        "Login detected: " + username + " " + password + " - " + response.message;
+        "Login detected: " +
+        username +
+        " " +
+        password +
+        " - " +
+        response.message;
       console.log(logMsg);
       this.logToFile(logMsg);
 
-      fetch("https://localhost:55000/events", {
+      await fetch("https://localhost:55000/events", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          
         },
-        body: JSON.stringify({ logMsg}),
+        body: JSON.stringify({ logMsg }),
       });
 
       return response;
@@ -66,46 +70,35 @@ export class AuthService {
     console.log(logMsg);
     this.logToFile(logMsg);
 
+    const url = "https://10.0.2.75/events";
+    const body = {
+      events: [
+        "API Event",
+        `SQL Injection detected: ${username} ${password} - ${logMsg}`,
+      ],
+    };
+    const token =
+      "eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ3YXp1aCIsImF1ZCI6IldhenVoIEFQSSBSRVNUIiwibmJmIjoxNzE3Njc5MDc5LCJleHAiOjE4MTc2NzkwNzksInN1YiI6ImFwaV93ZWIiLCJyYW5fYXMiOmZhbHNlLCJyYmFjX3JvbGVzIjpbMV0sInJiYWNfbW9kZSI6IndoaXRlIn0.AaukWtCBnZqgJoFm3qydDTycnrsUipCDQIqof7dcAN52iiRPpmovsfCi2D6GiNOKRIhuSbQ8V5y1921xZufMsJRNAGz2GSFgtA8IomQzVbxmcDtwS0x1AEy8nmbqjXXFJlTcrFN4HznhGBjff3w_Cu3XRJsDDEqZWv8AXSVRG2sBLr41";
 
-      const url = 'https://172.0.2.75:55000/events';
-      const body = {
-        events: [
-          "API Event",
-          `SQL Injection detected: ${username} ${password} - ${logMsg}`
-        ]
-      };
-      const token = 'eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ3YXp1aCIsImF1ZCI6IldhenVoIEFQSSBSRVNUIiwibmJmIjoxNzE3Njc5MDc5LCJleHAiOjE4MTc2NzkwNzksInN1YiI6ImFwaV93ZWIiLCJyYW5fYXMiOmZhbHNlLCJyYmFjX3JvbGVzIjpbMV0sInJiYWNfbW9kZSI6IndoaXRlIn0.AaukWtCBnZqgJoFm3qydDTycnrsUipCDQIqof7dcAN52iiRPpmovsfCi2D6GiNOKRIhuSbQ8V5y1921xZufMsJRNAGz2GSFgtA8IomQzVbxmcDtwS0x1AEy8nmbqjXXFJlTcrFN4HznhGBjff3w_Cu3XRJsDDEqZWv8AXSVRG2sBLr41';
-    
-      try {
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify(body),
-        });
-    
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      });
 
-
-
-
-
-
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status} ${response.statusText}`);
-        }
-    
-        const data = await response.json();
-        console.log('Success:', data);
-      } catch (error) {
-        console.error('Error:', error);
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
       }
-    
-    
 
-
-
+      const data = await response.json();
+      console.log("Success:", data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
 
     // try {
     //   console.log("SQL Injection mock response being created - service layer");

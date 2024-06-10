@@ -1,0 +1,96 @@
+{
+    "_index": "wazuh-alerts-4.x-2024.06.10",
+    "_id": "Ut4NApABgvm6-PGhsmwI",
+    "_version": 1,
+    "_score": null,
+    "_source": {
+      "input": {
+        "type": "log"
+      },
+      "agent": {
+        "ip": "10.10.1.5",
+        "name": "Webserver",
+        "id": "001"
+      },
+      "manager": {
+        "name": "student-vm-ubuntu22"
+      },
+      "data": {
+        "protocol": "GET",
+        "srcip": "192.168.16.50",
+        "id": "404",
+        "url": "/.../.../"
+      },
+      "rule": {
+        "firedtimes": 1,
+        "mail": false,
+        "level": 6,
+        "pci_dss": [
+          "6.5",
+          "11.4",
+          "6.5.1"
+        ],
+        "tsc": [
+          "CC6.6",
+          "CC7.1",
+          "CC8.1",
+          "CC6.1",
+          "CC6.8",
+          "CC7.2",
+          "CC7.3"
+        ],
+        "description": "Common web attack.",
+        "groups": [
+          "web",
+          "accesslog",
+          "attack"
+        ],
+        "mitre": {
+          "technique": [
+            "Process Injection",
+            "File and Directory Discovery",
+            "Exploit Public-Facing Application"
+          ],
+          "id": [
+            "T1055",
+            "T1083",
+            "T1190"
+          ],
+          "tactic": [
+            "Defense Evasion",
+            "Privilege Escalation",
+            "Discovery",
+            "Initial Access"
+          ]
+        },
+        "id": "31104",
+        "nist_800_53": [
+          "SA.11",
+          "SI.4"
+        ],
+        "gdpr": [
+          "IV_35.7.d"
+        ]
+      },
+      "location": "/var/log/apache2/access.log",
+      "decoder": {
+        "name": "web-accesslog"
+      },
+      "id": "1718021359.1805343",
+      "full_log": "192.168.16.50 - - [10/Jun/2024:14:09:19 +0200] \"GET /.../.../ HTTP/1.1\" 404 488 \"-\" \"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:105.0) Gecko/20100101 Firefox/105.0\"",
+      "timestamp": "2024-06-10T14:09:19.504+0200"
+    },
+    "fields": {
+      "timestamp": [
+        "2024-06-10T12:09:19.504Z"
+      ]
+    },
+    "highlight": {
+      "manager.name": [
+        "@opensearch-dashboards-highlighted-field@student-vm-ubuntu22@/opensearch-dashboards-highlighted-field@"
+      ]
+    },
+    "sort": [
+      1718021359504
+    ]
+  }
