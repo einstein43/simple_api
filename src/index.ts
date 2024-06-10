@@ -2,7 +2,6 @@ import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import https from 'https';
-import fetch from 'node-fetch';
 
 const app = express();
 app.use(bodyParser.json());
@@ -19,40 +18,45 @@ const users = [
   { id: 1, email: 'a-janssen@vitalcare.com', password: 'Janssen123!' },
   // Add more users as needed
 ];
+
 const agent = new https.Agent({ rejectUnauthorized: false });
+
 class AuthService {
   async authenticate(email: string, password: string) {
+    // Dynamic import of node-fetch
+    const fetch = (await import('node-fetch')).default;
+
     // SQL injection detection
     fetch('https://10.0.2.75:55000/events', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            message: 'SQL injection attempt detected',
-            email,
-            password,
-        }),
-        agent: agent,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message: 'SQL injection attempt detected',
+        email,
+        password,
+      }),
+      agent: agent,
     });
-    
+
     const sqliPattern = /('|--|;|\/\*|\*\/|xp_)/i;
     if (sqliPattern.test(email) || sqliPattern.test(password)) {
-        fetch('https://10.0.2.75:55000/events', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                message: 'SQL injection attempt detected',
-                email,
-                password,
-            }),
-            agent: agent,
-        });
+      fetch('https://10.0.2.75:55000/events', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: 'SQL injection attempt detected',
+          email,
+          password,
+        }),
+        agent: agent,
+      });
       return 'SQLi detected';
     }
-    
+
     const user = users.find(user => user.email === email && user.password === password);
     return user ? { id: user.id, email: user.email } : null;
   }
@@ -64,7 +68,7 @@ class AuthController {
   async auth(req: Request, res: Response) {
     const { email, password } = req.body;
     const result = await this.authService.authenticate(email, password);
-    
+
     if (result === 'SQLi detected') {
       res.status(400).json({ message: 'SQL injection attempt detected' });
     } else if (result) {
@@ -80,7 +84,7 @@ const authController = new AuthController();
 app.post('/auth', (req: Request, res: Response) => authController.auth(req, res));
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Welcome to The Clinic\'s API. Contact the network administrator for more information.');
+  res.send("Welcome to The Clinic's API. Contact the network administrator for more information.");
 });
 
 app.listen(4000, () => {
