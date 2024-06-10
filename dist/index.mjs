@@ -24,22 +24,8 @@ const agent = new https.Agent({ rejectUnauthorized: false });
 
 class AuthService {
   async authenticate(email, password) {
-    // SQL injection detection
-    fetch('https://10.0.2.75:55000/events', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        message: 'SQL injection attempt detected',
-        email,
-        password,
-      }),
-      agent: agent,
-    });
-
-    const sqliPattern = /('|--|;|\/\*|\*\/|xp_)/i;
-    if (sqliPattern.test(email) || sqliPattern.test(password)) {
+  
+try {
       fetch('https://10.0.2.75:55000/events', {
         method: 'POST',
         headers: {
@@ -52,6 +38,14 @@ class AuthService {
         }),
         agent: agent,
       });
+    }
+    catch (error) {
+        console.error(error);
+        }
+        
+    const sqliPattern = /('|--|;|\/\*|\*\/|xp_)/i;
+    if (sqliPattern.test(email) || sqliPattern.test(password)) {
+    
       return 'SQLi detected';
     }
 
