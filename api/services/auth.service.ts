@@ -4,7 +4,7 @@ import { container, inject, injectable } from "tsyringe";
 import { AuthRepository } from "../repositories/auth.repository";
 import fs from "fs";
 import path from "path";
-
+import fetch from "node-fetch";
 container.register("IAuthRepository", {
   useClass: AuthRepository,
 });
@@ -46,13 +46,7 @@ export class AuthService {
       console.log(logMsg);
       this.logToFile(logMsg);
 
-      await fetch("https://localhost:55000/events", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ logMsg }),
-      });
+       
 
       return response;
     } catch (error: any) {
