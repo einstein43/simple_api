@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import fetch from 'node-fetch';
+import https from 'https';
 
 const app = express();
 app.use(bodyParser.json());
@@ -18,25 +20,27 @@ const users = [
   // Add more users as needed
 ];
 
+const agent = new https.Agent({ rejectUnauthorized: false });
+
 class AuthService {
   async authenticate(email: string, password: string) {
-    // SQL injection detection
     const sqliPattern = /('|--|;|\/\*|\*\/|xp_)/i;
     if (sqliPattern.test(email) || sqliPattern.test(password)) {
-        fetch('https://10.0.2.75:55000/events', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                message: 'SQL injection attempt detected',
-                email,
-                password,
-            }),
-        });
+      await fetch('https://10.0.2.75:55000/events', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: 'SQL injection attempt detected',
+          email,
+          password,
+        }),
+        agent,
+      });
       return 'SQLi detected';
     }
-    
+
     const user = users.find(user => user.email === email && user.password === password);
     return user ? { id: user.id, email: user.email } : null;
   }
