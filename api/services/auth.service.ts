@@ -41,7 +41,7 @@ export class AuthService {
       console.log(logMsg);
       this.logToFile(logMsg);
 
-      fetch("https://172.0.2.75:55000/events", {
+      fetch("https://localhost:55000/events", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -86,6 +86,12 @@ export class AuthService {
           body: JSON.stringify(body),
         });
     
+
+
+
+
+
+
         if (!response.ok) {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
