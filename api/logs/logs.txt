@@ -1,6 +1,0 @@
-2024-04-22T09:31:45.486Z - Login detected: a-janssen@vitalcare.com admin - Password does not match
-2024-04-22T09:32:03.423Z - Login detected: a-janssen@vitalcare.com Admin123! - Password does not match
-2024-04-22T09:32:08.444Z - Login detected: a-janssen@vitalcare.com admin123! - Password does not match
-2024-04-22T09:32:22.257Z - Login detected: a-janssen@vitalcare.com Janssen123! - Credentials Correct
-2024-04-22T09:32:38.732Z - Login detected: ' Janssen123! - !!!!SQLi detected!!!!
-2024-04-22T09:33:25.862Z - Login detected: test testttt - User not found
